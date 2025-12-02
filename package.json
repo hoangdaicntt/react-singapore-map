@@ -1,0 +1,55 @@
+{
+  "name": "react-singapore-map",
+  "version": "1.0.0",
+  "description": "Interactive Singapore postal code map component for React",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "map.json",
+    "map.svg",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "singapore",
+    "map",
+    "postal-code",
+    "react",
+    "component",
+    "svg",
+    "interactive-map"
+  ],
+  "author": "Hoàng Đại <hoangdaicntt@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "postcss": "^8.4.31",
+    "rollup": "^3.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hoangdaicntt/react-singapore-map.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hoangdaicntt/react-singapore-map/issues"
+  },
+  "homepage": "https://github.com/hoangdaicntt/react-singapore-map#readme"
+}

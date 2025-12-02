@@ -1,0 +1,22 @@
+# Source files
+*.tsx
+tsconfig.json
+rollup.config.js
+
+# Development files
+parser.js
+map.svg
+
+# Build artifacts
+node_modules/
+.DS_Store
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+package-lock.json
+yarn.lock

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ESNext",
+    "lib": ["ES2015", "DOM"],
+    "jsx": "react",
+    "declaration": true,
+    "declarationDir": "dist",
+    "outDir": "dist",
+    "strict": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": ["index.tsx", "map.json"],
+  "exclude": ["node_modules", "dist", "parser.js"]
+}
+
