@@ -1,9 +1,9 @@
 import {useState} from 'react';
-import SingaporeMap, {PostalCode} from 'react-singapore-map';
+import SingaporeMap, {type PostalCode} from 'react-singapore-map';
 import './App.css';
 
 // Sample data for different regions
-const regionData: Record<any, { name: string; population: string; color: string }> = {
+const regionData: Record<PostalCode, { name: string; population: string; color: string }> = {
     1: {name: 'Raffles Place', population: '5,000', color: '#FF6B6B'},
     2: {name: 'Anson', population: '8,000', color: '#4ECDC4'},
     3: {name: 'Tanjong Pagar', population: '12,000', color: '#45B7D1'},

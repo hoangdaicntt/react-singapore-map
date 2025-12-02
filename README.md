@@ -6,6 +6,12 @@ A React component for rendering an interactive SVG map of Singapore with customi
 
 ## Usage
 
+Import with type-only specifiers to avoid errors when `verbatimModuleSyntax` is enabled:
+
+```ts
+import SingaporeMap, { type PostalCode, type ContentPlacement } from 'react-singapore-map';
+```
+
 ### Props
 
 - **`className`**: `string` - Optional CSS class for the root SVG
@@ -84,6 +90,7 @@ A React component for rendering an interactive SVG map of Singapore with customi
 - The `placement` prop controls how content is positioned relative to the coordinate point
 - Element IDs in SVG must follow the format: `Dot<postal_code>` (e.g., Dot75, Dot45) to display content at postal code locations
 - Path IDs must follow the format: `Path<postal_code>` (e.g., Path75, Path45) to define regions by postal code
+- When using TypeScript with `verbatimModuleSyntax`, import types via `import { type PostalCode } from 'react-singapore-map'`
 
 ## Development
 
