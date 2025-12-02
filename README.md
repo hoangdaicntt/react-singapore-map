@@ -2,15 +2,22 @@
 
 A React component for rendering an interactive SVG map of Singapore with customizable content display based on postal codes.
 
+![Component preview](./screenshot.png)
+
 ## Usage
 
 ### Props
 
+- **`className`**: `string` - Optional CSS class for the root SVG
+- **`background`**: `boolean` - Toggle rendering of the background group (default: `true`)
 - **`regionFills`**: `Record<PostalCode, string>` - Define fill colors for regions by postal code
+- **`defaultRegionFill`**: `string` - Fallback fill color for regions
 - **`onRegionHover`**: `(postalCode: PostalCode) => void` - Callback when hovering over a region
 - **`onRegionLeave`**: `(postalCode: PostalCode) => void` - Callback when leaving a region
 - **`renderRegion`**: `(postalCode: PostalCode, coords: { cx, cy, r? }) => ReactNode` - Function to render content for postal code
 - **`regionContents`**: `Record<PostalCode, ReactNode>` - Object containing content for postal codes (similar to regionFills)
+- **`regionTextFills`**: `Record<PostalCode, string>` - Define fill colors for text labels by postal code
+- **`defaultRegionTextFill`**: `string` - Fallback fill color for text labels
 - **`placement`**: `ContentPlacement` - Content position relative to coordinates (default: `'topCenter'`)
   - Options: `'topLeft'` | `'topCenter'` | `'topRight'` | `'center'` | `'bottomLeft'` | `'bottomCenter'` | `'bottomRight'` | `'centerLeft'` | `'centerRight'`
 
@@ -78,13 +85,6 @@ A React component for rendering an interactive SVG map of Singapore with customi
 - Element IDs in SVG must follow the format: `Dot<postal_code>` (e.g., Dot75, Dot45) to display content at postal code locations
 - Path IDs must follow the format: `Path<postal_code>` (e.g., Path75, Path45) to define regions by postal code
 
-## Cấu trúc file
-
-- `map.svg` - File SVG gốc
-- `map.json` - File JSON được generate từ SVG (sử dụng parser.js)
-- `index.tsx` - Component React
-- `parser.js` - Script để generate map.json từ map.svg
-
 ## Development
 
 ### Build the package
@@ -95,31 +95,6 @@ npm run build
 
 This will create the distribution files in the `dist/` folder.
 
-### Publishing to npm
-
-1. Update the version in `package.json`:
-```bash
-npm version patch  # or minor, or major
-```
-
-2. Build the package:
-```bash
-npm run build
-```
-
-3. Login to npm (if not already logged in):
-```bash
-npm login
-```
-
-4. Publish the package:
-```bash
-npm publish --access public
-```
-
-**Note:** Remember to update the package name in `package.json` from `@react-singapore-map` to your actual organization/username before publishing.
-
 ## License
 
 MIT
-

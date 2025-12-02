@@ -63,17 +63,20 @@ const parseId = (rawId?: string) => {
     return {original: rawId, prefix: undefined, numeric: undefined};
 };
 
-const resolveRegionFill = (rawId: string | undefined, regionFills?: Record<PostalCode, string>) => {
-    if (!rawId || !regionFills) return undefined;
+const resolveRegionFill = (rawId: string | undefined, regionFills?: Record<PostalCode, string>, defaultColor?: string) => {
+    if (!rawId || !regionFills) return defaultColor || undefined;
     const {numeric} = parseId(rawId);
     if (numeric !== undefined && regionFills[numeric] !== undefined) return regionFills[numeric];
-    return undefined;
+    return defaultColor || undefined;
 };
 
 type SingaporeMapProps = {
     className?: string;
-    regionFills?: Record<PostalCode, string>; // For PathGroup paths
+    background?: boolean; // Control whether to render BackgroundGroup
+    regionFills?: Record<PostalCode, string>; // For PathGroup path elements
+    defaultRegionFill?: string; // For PathGroup path elements
     regionTextFills?: Record<PostalCode, string>; // For TextGroup text elements
+    defaultRegionTextFill?: string; // For TextGroup text elements
     onRegionHover?: PostalCodeEventHandler;
     onRegionLeave?: PostalCodeEventHandler;
     renderRegion?: RegionRenderer;
@@ -85,11 +88,14 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
                                                        className,
                                                        regionFills,
                                                        regionTextFills,
+                                                       background = true,
                                                        onRegionHover,
                                                        onRegionLeave,
                                                        renderRegion,
                                                        regionContents,
                                                        placement = 'topCenter',
+                                                       defaultRegionFill = "",
+                                                       defaultRegionTextFill = "",
                                                    }) => {
     const {width, height, viewBox, groups} = mapData;
 
@@ -163,10 +169,10 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
         let fill: string | undefined;
         if (groupId === 'PathGroup') {
             // Apply regionFills only for PathGroup paths
-            fill = resolveRegionFill(id, regionFills);
+            fill = resolveRegionFill(id, regionFills, defaultRegionFill);
         } else if (groupId === 'TextGroup') {
             // Apply regionTextFills only for TextGroup text elements
-            fill = resolveRegionFill(id, regionTextFills);
+            fill = resolveRegionFill(id, regionTextFills, defaultRegionTextFill);
         }
 
         const eventProps =
@@ -188,11 +194,13 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
             viewBox={viewBox}
             xmlns="http://www.w3.org/2000/svg"
         >
-            {groups.map((group) => (
-                <g key={group.id} id={group.id} {...normalizeAttributes(group.attributes)}>
-                    {group.elements.map((element, index) => renderElement(element, index, group.id))}
-                </g>
-            ))}
+            {groups
+                .filter((group) => background || group.id !== 'BackgroundGroup')
+                .map((group) => (
+                    <g key={group.id} id={group.id} {...normalizeAttributes(group.attributes)}>
+                        {group.elements.map((element, index) => renderElement(element, index, group.id))}
+                    </g>
+                ))}
         </svg>
     );
 };
