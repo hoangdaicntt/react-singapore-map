@@ -14,14 +14,23 @@ export default {
         {
             file: packageJson.main,
             format: 'cjs',
-            sourcemap: false,
             exports: 'named'
         },
         {
             file: packageJson.module,
             format: 'esm',
-            sourcemap: false,
             exports: 'named'
+        },
+        {
+            file: 'dist/index.umd.js',
+            format: 'umd',
+            name: 'ReactSingaporeMap',
+            sourcemap: false,
+            exports: 'named',
+            globals: {
+                react: 'React',
+                'react-dom': 'ReactDOM'
+            }
         }
     ],
     plugins: [

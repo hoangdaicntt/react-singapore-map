@@ -20,3 +20,8 @@ node_modules/
 
 package-lock.json
 yarn.lock
+
+dist/index.esm.js.map
+dist/index.cjs.js.map
+dist/index.umd.js.map
+dist/index.js.map
