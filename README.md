@@ -18,8 +18,8 @@ import SingaporeMap, { type PostalCode, type ContentPlacement } from 'react-sing
 - **`background`**: `boolean` - Toggle rendering of the background group (default: `true`)
 - **`regionFills`**: `Record<PostalCode, string>` - Define fill colors for regions by postal code
 - **`defaultRegionFill`**: `string` - Fallback fill color for regions
-- **`onRegionHover`**: `(postalCode: PostalCode) => void` - Callback when hovering over a region
-- **`onRegionLeave`**: `(postalCode: PostalCode) => void` - Callback when leaving a region
+- **`onHover`**: `(postalCode: PostalCode) => void` - Callback when hovering over a region
+- **`onLeave`**: `(postalCode: PostalCode) => void` - Callback when leaving a region
 - **`renderRegion`**: `(postalCode: PostalCode, coords: { cx, cy, r? }) => ReactNode` - Function to render content for postal code
 - **`regionContents`**: `Record<PostalCode, ReactNode>` - Object containing content for postal codes (similar to regionFills)
 - **`regionTextFills`**: `Record<PostalCode, string>` - Define fill colors for text labels by postal code
@@ -32,8 +32,8 @@ import SingaporeMap, { type PostalCode, type ContentPlacement } from 'react-sing
 ```tsx
 <Map
     regionFills={{75: '#ff5252', 45: '#52ff7e'}}
-    onRegionHover={(postalCode) => console.log('hover', postalCode)}
-    onRegionLeave={(postalCode) => console.log('leave', postalCode)}
+    onHover={(postalCode) => console.log('hover', postalCode)}
+    onLeave={(postalCode) => console.log('leave', postalCode)}
     renderRegion={(postalCode, {cx, cy, r}) => {
         if (postalCode === 75) {
             return <div style={{backgroundColor: 'red', borderRadius: 12}}>
@@ -51,8 +51,8 @@ import SingaporeMap, { type PostalCode, type ContentPlacement } from 'react-sing
 ```tsx
 <Map
     regionFills={{75: '#ff5252', 45: '#52ff7e'}}
-    onRegionHover={(postalCode) => console.log('hover', postalCode)}
-    onRegionLeave={(postalCode) => console.log('leave', postalCode)}
+    onHover={(postalCode) => console.log('hover', postalCode)}
+    onLeave={(postalCode) => console.log('leave', postalCode)}
     regionContents={{
         75: <div style={{backgroundColor: 'red', borderRadius: 12}}>Postal Code 75</div>,
         45: <div style={{backgroundColor: 'blue', borderRadius: 12}}>Postal Code 45</div>,

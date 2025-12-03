@@ -98,8 +98,14 @@ function App() {
                     defaultRegionTextFill={"#000"}
                     regionContents={regionContents}
                     regionTextFills={{1: '#FFFFFF'}}
-                    onRegionHover={(code) => setHoveredRegion(code)}
-                    onRegionLeave={() => setHoveredRegion(null)}
+                    onHover={(code) => {
+                        setHoveredRegion(code);
+                        console.log("Hovered region:", code);
+                    }}
+                    onLeave={(code) => {
+                        setHoveredRegion(null);
+                        console.log("Left region", code);
+                    }}
                     placement="topCenter"
                 />
             </div>

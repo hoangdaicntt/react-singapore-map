@@ -1,14 +1,12 @@
 {
   "name": "react-singapore-map",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Interactive Singapore postal code map component for React",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "map.json",
-    "map.svg",
     "README.md"
   ],
   "scripts": {

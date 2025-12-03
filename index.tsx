@@ -77,8 +77,9 @@ type SingaporeMapProps = {
     defaultRegionFill?: string; // For PathGroup path elements
     regionTextFills?: Record<PostalCode, string>; // For TextGroup text elements
     defaultRegionTextFill?: string; // For TextGroup text elements
-    onRegionHover?: PostalCodeEventHandler;
-    onRegionLeave?: PostalCodeEventHandler;
+    onHover?: PostalCodeEventHandler;
+    onLeave?: PostalCodeEventHandler;
+    onClick?: PostalCodeEventHandler;
     renderRegion?: RegionRenderer;
     regionContents?: Record<PostalCode, React.ReactNode>;
     placement?: ContentPlacement;
@@ -89,8 +90,9 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
                                                        regionFills,
                                                        regionTextFills,
                                                        background = true,
-                                                       onRegionHover,
-                                                       onRegionLeave,
+                                                       onHover,
+                                                       onLeave,
+                                                       onClick,
                                                        renderRegion,
                                                        regionContents,
                                                        placement = 'topCenter',
@@ -175,13 +177,12 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
             fill = resolveRegionFill(id, regionTextFills, defaultRegionTextFill);
         }
 
-        const eventProps =
-            postalCode && (onRegionHover || onRegionLeave)
-                ? {
-                    onMouseEnter: () => onRegionHover?.(postalCode),
-                    onMouseLeave: () => onRegionLeave?.(postalCode),
-                }
-                : undefined;
+        const eventProps = groupId === 'PathGroup' && postalCode && (onHover || onLeave || onClick) ? {
+                onMouseEnter: () => onHover?.(postalCode),
+                onMouseLeave: () => onLeave?.(postalCode),
+                onClick: () => onClick?.(postalCode),
+            }
+            : undefined;
 
         return <path key={key} {...props} {...eventProps} {...(fill ? {fill} : null)} />;
     };
