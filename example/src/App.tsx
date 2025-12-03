@@ -54,7 +54,7 @@ function App() {
 
         if (isHovered || isSelected) {
             regionContents[postalCode] = (
-                <div className={`tooltip ${isSelected ? 'selected' : ''}`}>
+                <div style={{pointerEvents: 'none'}} className={`tooltip ${isSelected ? 'selected' : ''}`}>
                     <div className="tooltip-header">{data.name}</div>
                     <div className="tooltip-body">
                         <div className="tooltip-row">

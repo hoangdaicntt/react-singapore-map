@@ -100,6 +100,7 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
                                                        defaultRegionTextFill = "",
                                                    }) => {
     const {width, height, viewBox, groups} = mapData;
+    const pathGroup = groups.find((group) => group.id === 'PathGroup');
 
     const getTransformByPlacement = (placement: ContentPlacement): string => {
         const transforms: Record<ContentPlacement, string> = {
@@ -115,6 +116,14 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
         };
         return transforms[placement];
     };
+
+    const getRegionEventProps = (postalCode?: PostalCode) =>
+        postalCode && (onHover || onLeave || onClick) ? {
+                onMouseEnter: () => onHover?.(postalCode),
+                onMouseLeave: () => onLeave?.(postalCode),
+                onClick: () => onClick?.(postalCode),
+            }
+            : undefined;
 
     const renderElement = (element: SvgElement, index: number, groupId: string) => {
         const {type, id, ...rest} = element;
@@ -177,14 +186,7 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
             fill = resolveRegionFill(id, regionTextFills, defaultRegionTextFill);
         }
 
-        const eventProps = groupId === 'PathGroup' && postalCode && (onHover || onLeave || onClick) ? {
-                onMouseEnter: () => onHover?.(postalCode),
-                onMouseLeave: () => onLeave?.(postalCode),
-                onClick: () => onClick?.(postalCode),
-            }
-            : undefined;
-
-        return <path key={key} {...props} {...eventProps} {...(fill ? {fill} : null)} />;
+        return <path key={key} {...props} {...(fill ? {fill} : null)} />;
     };
 
     return (
@@ -202,6 +204,27 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
                         {group.elements.map((element, index) => renderElement(element, index, group.id))}
                     </g>
                 ))}
+            {pathGroup && (
+                <g
+                    key="PathGroupTransparent"
+                    id="PathGroupTransparent"
+                    {...normalizeAttributes(pathGroup.attributes)}
+                >
+                    {pathGroup.elements.map((element, index) => {
+                        if (element.type !== 'path') return null;
+                        const {id, ...rest} = element;
+                        const overlayId = id ? `${id}-transparent` : undefined;
+                        const props = normalizeAttributes({id: overlayId, ...rest, fill: 'transparent'});
+                        const {numeric} = parseId(id);
+                        const postalCode: PostalCode | undefined = numeric;
+                        const key = `${id ?? `path-${index}`}-transparent`;
+
+                        const eventProps = getRegionEventProps(postalCode);
+
+                        return <path key={key} {...props} {...eventProps} />;
+                    })}
+                </g>
+            )}
         </svg>
     );
 };
