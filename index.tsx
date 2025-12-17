@@ -49,7 +49,7 @@ export type ContentPlacement =
     | 'bottomLeft'
     | 'bottomCenter'
     | 'bottomRight';
-type PostalCodeEventHandler = (postalCode: PostalCode) => void;
+type PostalCodeEventHandler = (postalCode: string, event?: MouseEvent) => void;
 type RegionRenderer = (postalCode: PostalCode, coords: { cx: number; cy: number; r?: number }) => React.ReactNode;
 
 const parseId = (rawId?: string) => {
@@ -80,9 +80,11 @@ type SingaporeMapProps = {
     onHover?: PostalCodeEventHandler;
     onLeave?: PostalCodeEventHandler;
     onClick?: PostalCodeEventHandler;
+    onMove?: PostalCodeEventHandler;
     renderRegion?: RegionRenderer;
     regionContents?: Record<PostalCode, React.ReactNode>;
     placement?: ContentPlacement;
+    island?: boolean; // Whether to show only the main island (hide small islands)
 };
 
 const SingaporeMap: React.FC<SingaporeMapProps> = ({
@@ -93,11 +95,13 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
                                                        onHover,
                                                        onLeave,
                                                        onClick,
+                                                       onMove,
                                                        renderRegion,
                                                        regionContents,
                                                        placement = 'topCenter',
                                                        defaultRegionFill = "",
                                                        defaultRegionTextFill = "",
+                                                       island = false
                                                    }) => {
     const {width, height, viewBox, groups} = mapData;
     const pathGroup = groups.find((group) => group.id === 'PathGroup');
@@ -117,13 +121,21 @@ const SingaporeMap: React.FC<SingaporeMapProps> = ({
         return transforms[placement];
     };
 
-    const getRegionEventProps = (postalCode?: PostalCode) =>
-        postalCode && (onHover || onLeave || onClick) ? {
-                onMouseEnter: () => onHover?.(postalCode),
-                onMouseLeave: () => onLeave?.(postalCode),
-                onClick: () => onClick?.(postalCode),
+    const getRegionEventProps = (postalCode?: PostalCode | any) => {
+        if (onHover || onLeave || onClick || onMove) {
+            let postalCodeText = postalCode;
+            if (typeof postalCodeText === 'number') {
+                postalCodeText = postalCode >= 10 ? postalCode.toString() : '0' + postalCode.toString();
             }
-            : undefined;
+            return {
+                onMouseEnter: (e: any) => onHover?.(postalCodeText, e),
+                onMouseLeave: (e: any) => onLeave?.(postalCodeText, e),
+                onClick: (e: any) => onClick?.(postalCodeText, e),
+                onMouseMove: (e: any) => onMove?.(postalCodeText, e)
+            }
+        }
+        return {}
+    };
 
     const renderElement = (element: SvgElement, index: number, groupId: string) => {
         const {type, id, ...rest} = element;
